@@ -235,10 +235,44 @@ import Swal from 'sweetalert2';
             sessionStorage.setItem('current-score',0);
         });
     });
+
+    const startX = ref(0);
+    const startY = ref(0);
+
+    function handleTouchStart(e) {
+        const touch = e.touches[0];
+        startX.value = touch.clientX;
+        startY.value = touch.clientY;
+    }
+
+    function handleTouchEnd(e) {
+        const touch = e.changedTouches[0];
+        const deltaX = touch.clientX - startX.value;
+        const deltaY = touch.clientY - startY.value;
+
+        const absX = Math.abs(deltaX);
+        const absY = Math.abs(deltaY);
+
+        if (Math.max(absX, absY) > 30) {
+            if (absX > absY) {
+            if (deltaX > 0) {
+                moveRight();
+            } else {
+                moveLeft();
+            }
+            } else {
+            if (deltaY > 0) {
+                moveDown();
+            } else {
+                moveUp();
+            }
+            }
+        }
+    }
 </script>
 
 <template>
-    <div class="game-board">
+    <div class="game-board" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
         <div class="row" v-for="(row, rowIndex) in gameBoard" :key="rowIndex + 1">
             <div :class="getCellValue(cell)" v-for="(cell, cellIndex) in row" :key="cellIndex + 1">{{ cell || '' }}</div>
         </div>

@@ -1,4 +1,5 @@
 <script setup>
+import FadeAni from './components/FadeAni.vue';
 import GameBoard from './components/GameBoard.vue';
 import Score from './components/Score.vue';
 import {ref} from 'vue';
@@ -24,6 +25,7 @@ function handleTrigger() {
   </header>
 
   <main>
+    <FadeAni />
     <GameBoard ref="componentBRef" />
   </main>
 </template>
